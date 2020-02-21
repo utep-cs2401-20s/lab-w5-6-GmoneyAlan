@@ -21,18 +21,22 @@ public class SnakeGame {
     }
 
     public int[] findTailExhaustive(){
-        int[] tPos = {0,0,0};
+        int[] tPos = new int[3];
+        tPos[2] = 0;
         resetCounters();
         for(int r = 0; r < game.length; r++){
             for(int c = 0; c < game[0].length; c++){
-
-                if(game[r][c] && (vecinos(r,c) == 1)){
-                    if((r != headPosition[0]) || c != headPosition[1]){
-                        tPos[0] = c;
-                        tPos[1] = r;
+                if(game[r][c] && (vecinos(r,c) <= 1)){
+                    if((r != headPosition[0]) || (c != headPosition[1])){
+                        tPos[0] = r;
+                        System.out.println(tPos[0]);
+                        tPos[1] = c;
+                        System.out.println(tPos[1]);
+                       // if(((r != headPosition[0]) || (c != headPosition[1]))){
+                         //   r = game.length - 1;
+                        //}
                     }
                 }
-
                 if(game[r][c]){
                     tPos[2]++;
                 }
@@ -50,7 +54,6 @@ public class SnakeGame {
 
     public int vecinos(int r, int c){
         int sum = 0;
-
                 if(r - 1> -1 && game[r - 1][c]){
                     sum++;
                 }//above
@@ -60,7 +63,7 @@ public class SnakeGame {
                 if(c - 1 > -1 && game[r][c - 1]){
                     sum++;
                 }//left
-                if(c + 1 < game.length && game[r][c + 1]){
+                if(c + 1 < game[r].length && game[r][c + 1]){ //aqui esta el problema not checking right side
                     sum++;
                 }//right
         return sum;
