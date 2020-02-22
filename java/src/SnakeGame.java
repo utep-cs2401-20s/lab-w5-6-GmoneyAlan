@@ -21,8 +21,8 @@ public class SnakeGame {
     }
 
     public int[] findTailExhaustive(){
-        int[] tPos = new int[3];
-        tPos[2] = 0;
+        int[] tPos = {-1,-1,0};
+
         resetCounters();
         for(int r = 0; r < game.length; r++){
             for(int c = 0; c < game[0].length; c++){
@@ -32,15 +32,14 @@ public class SnakeGame {
                         System.out.println(tPos[0]);
                         tPos[1] = c;
                         System.out.println(tPos[1]);
-                       // if(((r != headPosition[0]) || (c != headPosition[1]))){
-                         //   r = game.length - 1;
-                        //}
                     }
+                }
+                if(tPos[0] == -1 || tPos[1] == -1){
+                    exhaustiveChecks++;
                 }
                 if(game[r][c]){
                     tPos[2]++;
                 }
-                recursiveChecks++;
             }
         }
         return tPos;
