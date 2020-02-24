@@ -44,6 +44,8 @@ public class Main {
         int[] alan = Arrays.copyOf(snake.findTailExhaustive(),3);
         System.out.println("Row:" +alan[0] + " Column:"+ alan[1] + "  Length:" +alan[2]);
         //System.out.println(SnakeGame.getRecursiveChecks());
-
+        System.out.println("Same board now with recursive \n");
+        int[] alan2 = snake.findTailRecursive();
+        System.out.println("Row:" +alan2[0] + " Column:"+ alan2[1] + "  Length:" +alan2[2]);
     }
 }

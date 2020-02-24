@@ -22,7 +22,6 @@ public class SnakeGame {
 
     public int[] findTailExhaustive(){
         int[] tPos = {-1,-1,0};
-
         resetCounters();
         for(int r = 0; r < game.length; r++){
             for(int c = 0; c < game[0].length; c++){
@@ -34,7 +33,7 @@ public class SnakeGame {
                         System.out.println(tPos[1]);
                     }
                 }
-                if(tPos[0] == -1 || tPos[1] == -1){
+                if(tPos[0] == -1 && tPos[1] == -1){
                     exhaustiveChecks++;
                 }
                 if(game[r][c]){
@@ -44,13 +43,46 @@ public class SnakeGame {
         }
         return tPos;
     }//method end
-    //public int[] findTailRecursive(){
 
-    //}//method end
-    //private int[] findTailRecursive(int[] currentPosition, int[] previousPosition){
+    public int[] findTailRecursive(){
+        resetCounters();
+        int[] tPos = {-1,-1};
+        return findTailRecursive(headPosition, tPos);
+    }//method end
 
-    //}//method end
+    private int[] findTailRecursive(int[] currentPosition, int[] previousPosition){
+        int[] tPos = new int[3];
+        if((currentPosition[1] != previousPosition[1]) && (currentPosition[0] != previousPosition[0])){
+            findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1]), currentPosition);
+            tPos[2]++;
+        }
+        else
+            tPos[0] = currentPosition[0];
+            tPos[1] = currentPosition[1];
+            return tPos;
 
+    }//method end
+
+    public int[] vecinosRecursive(int r, int c){
+        int newSpot[] = new int[2];
+        if(r - 1> -1 && game[r - 1][c]){
+            newSpot[0] = r - 1;
+            newSpot[1] = c;
+        }//above
+        else if(r + 1 < game.length && game[r + 1][c]){
+            newSpot[0] = r + 1;
+            newSpot[1] = c;
+        }//below
+        else if(c - 1 > -1 && game[r][c - 1]){
+            newSpot[0] = r;
+            newSpot[1] = c - 1;
+        }//left
+        else if(c + 1 < game[r].length && game[r][c + 1]){
+            newSpot[0] = r;
+            newSpot[1] = c + 1;
+        }//right
+        return newSpot;
+    }
     public int vecinos(int r, int c){
         int sum = 0;
                 if(r - 1> -1 && game[r - 1][c]){
@@ -62,7 +94,7 @@ public class SnakeGame {
                 if(c - 1 > -1 && game[r][c - 1]){
                     sum++;
                 }//left
-                if(c + 1 < game[r].length && game[r][c + 1]){ //aqui esta el problema not checking right side
+                if(c + 1 < game[r].length && game[r][c + 1]){
                     sum++;
                 }//right
         return sum;
