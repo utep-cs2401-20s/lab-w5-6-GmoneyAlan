@@ -46,38 +46,49 @@ public class SnakeGame {
 
     public int[] findTailRecursive(){
         resetCounters();
-        int[] tPos = {-1,-1};
+        int[] tPos = {-1,-1,0};
         return findTailRecursive(headPosition, tPos);
     }//method end
 
     private int[] findTailRecursive(int[] currentPosition, int[] previousPosition){
         int[] tPos = new int[3];
-        if((currentPosition[1] != previousPosition[1]) && (currentPosition[0] != previousPosition[0])){
-            findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1]), currentPosition);
-            tPos[2]++;
+        if(headPosition[0] == currentPosition[0] && headPosition[1] == currentPosition[1]){
+           previousPosition[2] = 1;
+            return findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1], currentPosition), previousPosition);
+
+        }
+        else if(vecinos(currentPosition[0],currentPosition[1] ) > 1){
+            previousPosition[2]++;
+            tPos[0] = previousPosition[0];
+            tPos[1] = previousPosition[1];
+            previousPosition[0] = currentPosition[0];
+            previousPosition[1] = currentPosition[1];
+            return findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1], currentPosition), previousPosition);
         }
         else
+            previousPosition[2]++;
+            tPos[2] = previousPosition[2];
             tPos[0] = currentPosition[0];
             tPos[1] = currentPosition[1];
             return tPos;
 
     }//method end
 
-    public int[] vecinosRecursive(int r, int c){
+    public int[] vecinosRecursive(int r, int c, int[] previous){
         int newSpot[] = new int[2];
-        if(r - 1> -1 && game[r - 1][c]){
+        if((r - 1> -1 && game[r - 1][c]) && (previous[0] != r && previous[1] == c)){
             newSpot[0] = r - 1;
             newSpot[1] = c;
         }//above
-        else if(r + 1 < game.length && game[r + 1][c]){
+        else if((r + 1 < game.length && game[r + 1][c]) && (previous[0] != r&& previous[1] == c)){
             newSpot[0] = r + 1;
             newSpot[1] = c;
         }//below
-        else if(c - 1 > -1 && game[r][c - 1]){
+        else if((c - 1 > -1 && game[r][c - 1]) && (previous[0] == r && previous[1] != c )){
             newSpot[0] = r;
             newSpot[1] = c - 1;
         }//left
-        else if(c + 1 < game[r].length && game[r][c + 1]){
+        else if((c + 1 < game[r].length && game[r][c + 1]) && (previous[0] == r && previous[1] != c)){
             newSpot[0] = r;
             newSpot[1] = c + 1;
         }//right
