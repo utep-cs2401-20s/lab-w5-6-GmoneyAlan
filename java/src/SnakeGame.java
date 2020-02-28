@@ -1,12 +1,13 @@
 public class SnakeGame {
 
-    private boolean[][] game;;
+    private boolean[][] game;
     private int[] headPosition = new int[2];
     private static int exhaustiveChecks = 0;
     private static int recursiveChecks = 0;
 
     public SnakeGame(){
         game = new boolean[1][1];
+        game[0][0] = true;
     }
 
     public SnakeGame(boolean[][] load, int row, int col){
@@ -51,11 +52,18 @@ public class SnakeGame {
     private int[] findTailRecursive(int[] currentPosition, int[] previousPosition){
         int[] tPos = new int[3];
         if(headPosition[0] == currentPosition[0] && headPosition[1] == currentPosition[1]){
-           previousPosition[2] = 1;
-           recursiveChecks++;
-           previousPosition[0] = currentPosition[0];
-           previousPosition[1] = currentPosition[1];
-           return findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1], currentPosition), previousPosition);
+            if(game.length < 2 && game[0].length < 2){
+                recursiveChecks++;
+                tPos[0] = 0;
+                tPos[1] = 0;
+                tPos[2] = 1;
+                return tPos;
+            }
+            previousPosition[2] = 1;
+            recursiveChecks++;
+            previousPosition[0] = currentPosition[0];
+            previousPosition[1] = currentPosition[1];
+            return findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1], currentPosition), previousPosition);
         }
         else if(vecinos(currentPosition[0],currentPosition[1] ) > 1){
             previousPosition[2]++;
@@ -116,21 +124,10 @@ public class SnakeGame {
         recursiveChecks = 0;
         exhaustiveChecks = 0;
     }
-    static int getRecursiveChecks()
-    {
+    public static int getRecursiveChecks() {
         return recursiveChecks;
     }
-    static int getExhaustiveChecks(){
-
+    public static int getExhaustiveChecks(){
         return exhaustiveChecks;
     }
-
-    public void printGame(){
-        for(int r = 0; r < game.length; r++){
-            for(int c = 0; c < game.length; c++){
-                System.out.println(game[r][c] + " ");
-            }
-        }
-    }
-
 }//class
