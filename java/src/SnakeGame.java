@@ -28,9 +28,7 @@ public class SnakeGame {
                 if(game[r][c] && (vecinos(r,c) <= 1)){
                     if((r != headPosition[0]) || (c != headPosition[1])){
                         tPos[0] = r;
-                        System.out.println(tPos[0]);
                         tPos[1] = c;
-                        System.out.println(tPos[1]);
                     }
                 }
                 if(tPos[0] == -1 && tPos[1] == -1){
@@ -54,8 +52,10 @@ public class SnakeGame {
         int[] tPos = new int[3];
         if(headPosition[0] == currentPosition[0] && headPosition[1] == currentPosition[1]){
            previousPosition[2] = 1;
-            return findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1], currentPosition), previousPosition);
-
+           recursiveChecks++;
+           previousPosition[0] = currentPosition[0];
+           previousPosition[1] = currentPosition[1];
+           return findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1], currentPosition), previousPosition);
         }
         else if(vecinos(currentPosition[0],currentPosition[1] ) > 1){
             previousPosition[2]++;
@@ -63,10 +63,12 @@ public class SnakeGame {
             tPos[1] = previousPosition[1];
             previousPosition[0] = currentPosition[0];
             previousPosition[1] = currentPosition[1];
-            return findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1], currentPosition), previousPosition);
+            recursiveChecks++;
+            return findTailRecursive(vecinosRecursive(currentPosition[0],currentPosition[1], tPos), previousPosition);
         }
         else
             previousPosition[2]++;
+            recursiveChecks++;
             tPos[2] = previousPosition[2];
             tPos[0] = currentPosition[0];
             tPos[1] = currentPosition[1];
@@ -76,19 +78,19 @@ public class SnakeGame {
 
     public int[] vecinosRecursive(int r, int c, int[] previous){
         int newSpot[] = new int[2];
-        if((r - 1> -1 && game[r - 1][c]) && (previous[0] != r && previous[1] == c)){
+        if((r - 1> -1 && game[r - 1][c]) && (previous[0] != r - 1)){
             newSpot[0] = r - 1;
             newSpot[1] = c;
         }//above
-        else if((r + 1 < game.length && game[r + 1][c]) && (previous[0] != r&& previous[1] == c)){
+        else if((r + 1 < game.length && game[r + 1][c]) && (previous[0] != r + 1)){
             newSpot[0] = r + 1;
             newSpot[1] = c;
         }//below
-        else if((c - 1 > -1 && game[r][c - 1]) && (previous[0] == r && previous[1] != c )){
+        else if((c - 1 > -1 && game[r][c - 1]) && (previous[1] != c - 1)){
             newSpot[0] = r;
             newSpot[1] = c - 1;
         }//left
-        else if((c + 1 < game[r].length && game[r][c + 1]) && (previous[0] == r && previous[1] != c)){
+        else if((c + 1 < game[r].length && game[r][c + 1]) && (previous[1] != c + 1)){
             newSpot[0] = r;
             newSpot[1] = c + 1;
         }//right
@@ -114,11 +116,11 @@ public class SnakeGame {
         recursiveChecks = 0;
         exhaustiveChecks = 0;
     }
-    private static int getRecursiveChecks()
+    static int getRecursiveChecks()
     {
         return recursiveChecks;
     }
-    private static int getExhaustiveChecks(){
+    static int getExhaustiveChecks(){
 
         return exhaustiveChecks;
     }

@@ -17,15 +17,15 @@ public class Main {
                 {false,false,false,false,false}
         };
         boolean[][] snake3 = {
-                {false,false,true, false,false},
-                {false,false,true,false,false},
-                {false,false,true,false,false},
+                {true,false,true, false,false},
+                {true,false,true,false,false},
+                {true,true,true,false,false},
                 {false,false,false,false,false},
                 {false,false,false,false,false}
         };
         boolean[][] snake4 = {
-                {false,false,false,false},
-                {false,false,false,false},
+                {false,false,false,true},
+                {false,false,false,true},
                 {false,true,true,true},
         };
         boolean[][] snake5 = {
@@ -40,7 +40,7 @@ public class Main {
                 {true,false,false}
         };
 
-        SnakeGame snake = new SnakeGame(snake6, 0, 0); //not working with snake5 tPos is being overriden by 2,2
+        SnakeGame snake = new SnakeGame(snake3, 0, 2); //not working with snake5 tPos is being overriden by 2,2
 
         int[] alan = Arrays.copyOf(snake.findTailExhaustive(),3);
         System.out.println("Row:" +alan[0] + " Column:"+ alan[1] + "  Length:" +alan[2]);
@@ -49,6 +49,7 @@ public class Main {
 
         int[] alan2 = snake.findTailRecursive();
         System.out.println("Row:" +alan2[0] + " Column:"+ alan2[1] + "  Length:" +alan2[2]);
+        System.out.println("Recursive checks: " + snake.getRecursiveChecks());
 
     }
 
